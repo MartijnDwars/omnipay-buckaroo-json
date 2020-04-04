@@ -1,0 +1,15 @@
+{
+    "name": "martijndwars/omnipay-buckaroo-json",
+    "description": "Omnipay Buckaroo (JSON API) integration",
+    "type": "library",
+    "require": {
+        "league/omnipay": "^3.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martijn Dwars",
+            "email": "ikben@martijndwars.nl"
+        }
+    ]
+}
