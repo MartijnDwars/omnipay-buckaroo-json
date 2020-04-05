@@ -2,8 +2,15 @@
     "name": "martijndwars/omnipay-buckaroo-json",
     "description": "Omnipay Buckaroo (JSON API) integration",
     "type": "library",
+    "homepage": "https://github.com/MartijnDwars/omnipay-buckaroo-json",
     "require": {
+        "ext-json": "*",
         "league/omnipay": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MartijnDwars\\Omnipay\\Buckaroo\\" : "src/"
+        }
     },
     "license": "MIT",
     "authors": [

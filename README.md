@@ -11,23 +11,23 @@ composer require league/omnipay martijndwars/omnipay-buckaroo-json
 ## Usage
 
 ```php
-$gateway = \Omnipay\Omnipay::create('BuckarooJson');  
+$gateway = \Omnipay\Omnipay::create('\MartijnDwars\Omnipay\Buckaroo\Gateway');
 $gateway->setWebsiteKey('');
 $gateway->setSecretKey('');
+$gateway->setTestMode(true);
 
 $response = $gateway->purchase([
     'amount' => '12.34',
     'currency' => 'EUR',
     'culture' => 'nl-nL',
     'transactionId' => '1',
+    'description' => 'Acme order #1',
     'returnUrl' => 'https://webshop.com/checkout/return',
     'pushUrl' => 'https://webshop.com/checkout/notify',
 ])->send();
 
-if ($response->isSuccessful()) {
-    var_dump($response);
-} elseif ($response->isRedirect()) {
-    $response->redirect();
+if ($response->isRedirect()) {
+    redirect($response->redirect());
 } else {
     echo $response->getMessage();
 }
