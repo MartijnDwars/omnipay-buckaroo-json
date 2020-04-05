@@ -10,7 +10,7 @@ composer require league/omnipay martijndwars/omnipay-buckaroo-json
 
 ## Usage
 
-To redirect to Buckaroo's payment screen and let the user choose between iDeal, PayPal, MasterCard, Visa:
+To let the user choose between iDeal, PayPal, MasterCard, and Visa on Buckaroo's payment page:
 
 ```php
 $gateway = \Omnipay\Omnipay::create('\MartijnDwars\Omnipay\Buckaroo\Gateway');
@@ -36,16 +36,25 @@ if ($response->isRedirect()) {
 }
 ```
 
-If you want to use a specific payment method:
+If you want to use a specific payment method, e.g. iDeal:
 
 ```php
-...
+// ...
 
 $response = $gateway->purchase([
-    ...
+    // ...
     'paymentMethod' => 'ideal',
-    ...
 ])->send();
+```
 
-...
+If, in addition, you want to redirect to the page of a specific issuer (e.g. ING Bank):
+
+```php
+// ...
+
+$response = $gateway->purchase([
+    // ...
+    'paymentMethod' => 'ideal',
+    'issuer' => 'INGBNL2A',
+])->send();
 ```

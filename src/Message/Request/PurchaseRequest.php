@@ -47,8 +47,28 @@ class PurchaseRequest extends AbstractBuckarooRequest
         ];
 
         if ($this->getPaymentMethod()) {
+            // If the payment method is iDeal, then the issuer should be present or ContinueOnIncomplete should be set
+            if ($this->containsIdeal() && $this->getIssuer() == null) {
+                $data['ContinueOnIncomplete'] = true;
+            }
+
             $data['ContinueOnIncomplete'] = true;
             $data['ServicesSelectableByClient'] = $this->getPaymentMethod();
+        }
+
+        if ($this->getIssuer()) {
+            $data['Services']['ServiceList'] = [
+                [
+                    'Name' => 'ideal',
+                    'Action' => 'Pay',
+                    'Parameters' => [
+                        [
+                            'Name' => 'issuer',
+                            'Value' => $this->getIssuer()
+                        ]
+                    ]
+                ]
+            ];
         }
 
         if ($this->getReturnUrl() != null) {
@@ -75,5 +95,15 @@ class PurchaseRequest extends AbstractBuckarooRequest
         $response = $this->sendRequest(self::POST, 'transaction', $data);
 
         return $this->response = new PurchaseResponse($this, $response);
+    }
+
+    /**
+     * Check if the list of payment methods contains ideal.
+     *
+     * @return bool
+     */
+    private function containsIdeal()
+    {
+        return stristr($this->getPaymentMethod(), 'ideal') !== false;
     }
 }
