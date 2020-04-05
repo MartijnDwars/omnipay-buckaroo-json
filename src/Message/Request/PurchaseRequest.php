@@ -44,9 +44,12 @@ class PurchaseRequest extends AbstractBuckarooRequest
             'AmountDebit' => (float) $this->getAmount(),
             'Invoice' => $this->getTransactionId(),
             'Description' => $this->getDescription(),
-            'ContinueOnIncomplete' => true,
-            'ServicesSelectableByClient' => 'ideal,paypal,mastercard,visa'
         ];
+
+        if ($this->getPaymentMethod()) {
+            $data['ContinueOnIncomplete'] = true;
+            $data['ServicesSelectableByClient'] = $this->getPaymentMethod();
+        }
 
         if ($this->getReturnUrl() != null) {
             $data['ReturnURL'] = $this->getReturnUrl();
